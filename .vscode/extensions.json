@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"amiralizadeh9480.laravel-extra-intellisense",
+		"zobo.php-intellisense",
+		"bmewburn.vscode-intelephense-client",
+		"dsznajder.es7-react-js-snippets",
+		"esbenp.prettier-vscode"
+	]
+}

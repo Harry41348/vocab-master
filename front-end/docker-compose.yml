@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  templateproject:
+    image: template-project
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: react-frontend
+    environment:
+      NODE_ENV: local
+    ports:
+      - 3000:3000

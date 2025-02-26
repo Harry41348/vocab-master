@@ -1,0 +1,57 @@
+name: Laravel
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+
+jobs:
+  phpunit:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    environment: development
+    defaults:
+      run:
+        working-directory: ./back-end
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: Configuration
+        run: |
+          cp .env.example .env
+
+      - name: Install Composer Dependencies
+        run: |
+          mkdir -p ./bootstrap/cache
+          mkdir -p ./storage/framework/cache
+          chmod -R 777 ./bootstrap/ ./storage/framework/cache
+          composer install --no-interaction --prefer-dist
+
+      - name: Start Laravel Sail
+        run: ./vendor/bin/sail up -d --wait
+
+      - name: Run Laravel Pint
+        run: ./vendor/bin/sail pint --test
+
+      # - name: NPM Install & Build
+      #   run: |
+      #     ./vendor/bin/sail npm install
+      #     ./vendor/bin/sail npm run build
+
+      - name: Run Database Migrations
+        run: ./vendor/bin/sail artisan migrate
+
+      - name: Run Unit Tests
+        run: ./vendor/bin/sail test
+
+      # - name: Run Laravel Dusk
+      #   run: ./vendor/bin/sail dusk --verbose
+
+      - name: Stop Laravel Sail
+        run: ./vendor/bin/sail down
