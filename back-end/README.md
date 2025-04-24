@@ -29,7 +29,7 @@ Switch to the repo Laravel folder
 
 Install all the dependencies using composer
 
-    sail composer install
+    composer install
 
 Copy the example env file and make the required configuration changes in the .env file
 
