@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Pack extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,7 +28,7 @@ class Pack extends Model
     {
         return $this->hasMany(Translation::class);
     }
-    
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
