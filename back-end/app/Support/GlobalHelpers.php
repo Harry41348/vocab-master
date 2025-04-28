@@ -3,6 +3,6 @@
 if (! function_exists('currentUser')) {
     function currentUser()
     {
-        return auth()->user();
+        return optional(auth('sanctum')->user());
     }
 }
