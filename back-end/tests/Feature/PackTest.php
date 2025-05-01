@@ -91,6 +91,31 @@ class PackTest extends TestCase
 
     #[Test]
     #[Group('pack')]
+    public function guest_cannot_view_non_existent_pack(): void
+    {
+        // Act
+        $response = $this->get(route('api.packs.show', ['pack' => 999]));
+
+        // Assert
+        $response->assertStatus(404);
+    }
+
+    #[Test]
+    #[Group('pack')]
+    public function user_can_view_non_existent_pack(): void
+    {
+        // Arrange
+        $this->authenticateUser();
+
+        // Act
+        $response = $this->get(route('api.packs.show', ['pack' => 999]));
+
+        // Assert
+        $response->assertStatus(404);
+    }
+
+    #[Test]
+    #[Group('pack')]
     #[DataProvider('valid_data')]
     public function user_can_create_pack_with_valid_data($data): void
     {

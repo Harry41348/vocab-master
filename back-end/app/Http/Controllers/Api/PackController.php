@@ -15,7 +15,7 @@ class PackController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request): ApiResponse
+    public function index(): ApiResponse
     {
         $packs = Pack::all();
 
@@ -29,7 +29,7 @@ class PackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id): ApiResponse
+    public function show(int $id): ApiResponse
     {
         $pack = Pack::find($id);
 
