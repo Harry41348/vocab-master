@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\PackRequest;
 use App\Http\Responses\Api\ApiResponse;
 use App\Models\Pack;
-use Illuminate\Http\Request;
 
 class PackController extends Controller
 {
@@ -26,7 +25,6 @@ class PackController extends Controller
      * Retrieve a specific pack by its ID.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(int $id): ApiResponse
