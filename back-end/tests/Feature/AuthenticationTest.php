@@ -374,10 +374,12 @@ class AuthenticationTest extends TestCase
     public function guest_can_not_logout(): void
     {
         // Act
-        $response = $this->post(route('api.logout'));
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+        ])->post(route('api.logout'));
 
         // Assert
         $response
-            ->assertStatus(500);
+            ->assertStatus(401);
     }
 }

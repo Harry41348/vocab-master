@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class TranslationTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

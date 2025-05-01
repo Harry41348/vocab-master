@@ -13,7 +13,6 @@ class PackController extends Controller
     /**
      * Retrieve a list of all packs.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request): ApiResponse
@@ -30,11 +29,11 @@ class PackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, $id): ApiResponse
+    public function show($id): ApiResponse
     {
         $pack = Pack::find($id);
 
-        if (!$pack) {
+        if (! $pack) {
             return ApiResponse::error(404, 'Pack not found');
         }
 
@@ -71,8 +70,8 @@ class PackController extends Controller
     public function update(PackRequest $request, $id): ApiResponse
     {
         $pack = Pack::find($id);
-        
-        if (!$pack) {
+
+        if (! $pack) {
             return ApiResponse::error(404, 'Pack not found');
         }
 
@@ -80,7 +79,7 @@ class PackController extends Controller
         if (! $this->isOwner($pack)) {
             return ApiResponse::error(403, 'You do not have permission to update this pack');
         }
-        
+
         $validatedData = $request->validated();
 
         try {
@@ -99,11 +98,11 @@ class PackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request, $id): ApiResponse
+    public function destroy($id): ApiResponse
     {
         $pack = Pack::find($id);
 
-        if (!$pack) {
+        if (! $pack) {
             return ApiResponse::error(404, 'Pack not found');
         }
 
