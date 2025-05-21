@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-class PackRequest extends ApiRequest
+class TranslationRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -11,6 +11,12 @@ class PackRequest extends ApiRequest
     {
         // Check if the user is authenticated
         if ($this->user() === null) {
+            return false;
+        }
+
+        // Check if the user is the owner of the pack
+        $pack = $this->route('pack');
+        if ($pack && $this->user()->id !== $pack->user_id) {
             return false;
         }
 
@@ -27,10 +33,8 @@ class PackRequest extends ApiRequest
         $packId = $this->route('pack');
 
         return [
-            'name' => 'required|string|unique:packs,name,'.$packId,
-            'description' => 'nullable|string',
-            'language_from' => 'required',
-            'language_to' => 'required',
+            'from_translation' => 'required|string',
+            'to_translation' => 'required|string'
         ];
     }
 }

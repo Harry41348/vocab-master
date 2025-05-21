@@ -24,7 +24,7 @@ class AuthenticationTest extends TestCase
         ];
 
         // Act
-        $response = $this->post(route('api.register'), $registerDetails);
+        $response = $this->postJson(route('api.register'), $registerDetails);
         $user = User::where('email', 'john.doe@example.com')->first();
 
         // Assert
@@ -66,7 +66,7 @@ class AuthenticationTest extends TestCase
         $count = User::count();
 
         // Act
-        $response = $this->post(route('api.register'), $registerDetails);
+        $response = $this->postJson(route('api.register'), $registerDetails);
 
         // Assert
         $response
@@ -86,7 +86,7 @@ class AuthenticationTest extends TestCase
     public function user_can_not_register_without_valid_attributes($registerDetails, $errors): void
     {
         // Act
-        $response = $this->post(route('api.register'), $registerDetails);
+        $response = $this->postJson(route('api.register'), $registerDetails);
 
         // Assert
         $response
@@ -252,7 +252,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         // Act
-        $response = $this->post(route('api.login'), $loginDetails);
+        $response = $this->postJson(route('api.login'), $loginDetails);
 
         // Assert
         $response
@@ -333,7 +333,7 @@ class AuthenticationTest extends TestCase
     public function user_can_not_login_when_they_do_not_exist(): void
     {
         // Act
-        $response = $this->post(route('api.login'), [
+        $response = $this->postJson(route('api.login'), [
             'email' => 'john.doe@example.com',
             'password' => 'password',
         ]);
@@ -358,7 +358,7 @@ class AuthenticationTest extends TestCase
         );
 
         // Act
-        $response = $this->post(route('api.logout'));
+        $response = $this->postJson(route('api.logout'));
 
         // Assert
         $response
@@ -374,9 +374,7 @@ class AuthenticationTest extends TestCase
     public function guest_can_not_logout(): void
     {
         // Act
-        $response = $this->withHeaders([
-            'Accept' => 'application/json',
-        ])->post(route('api.logout'));
+        $response = $this->postJson(route('api.logout'));
 
         // Assert
         $response

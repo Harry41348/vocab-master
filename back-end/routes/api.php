@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\HealthCheckController;
 use App\Http\Controllers\Api\PackController;
+use App\Http\Controllers\Api\TranslationController;
 use App\Http\Controllers\Api\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,9 @@ Route::name('api.')->group(function () {
         ->only(['index', 'show'])
         ->names('packs');
 
+    // Translation routes
+    Route::get('packs/{pack}/translations', [TranslationController::class, 'index'])->name('packs.translations.index');
+
     /**
      * Protected API routes
      */
@@ -31,5 +35,8 @@ Route::name('api.')->group(function () {
         Route::resource('packs', PackController::class)
             ->only(['store', 'update', 'destroy'])
             ->names('packs');
+
+        Route::resource('packs.translations', TranslationController::class)
+            ->only(['store', 'update', 'destroy']);
     });
 });

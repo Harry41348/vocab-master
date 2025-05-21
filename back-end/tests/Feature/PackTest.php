@@ -21,7 +21,7 @@ class PackTest extends TestCase
         $packs = Pack::factory()->count(5)->create();
 
         // Act
-        $response = $this->get(route('api.packs.index'));
+        $response = $this->getJson(route('api.packs.index'));
 
         // Assert
         $response->assertStatus(200);
@@ -42,7 +42,7 @@ class PackTest extends TestCase
         $packs = Pack::factory()->count(5)->create();
 
         // Act
-        $response = $this->get(route('api.packs.index'));
+        $response = $this->getJson(route('api.packs.index'));
 
         // Assert
         $response->assertStatus(200);
@@ -62,7 +62,7 @@ class PackTest extends TestCase
         $pack = Pack::factory()->create();
 
         // Act
-        $response = $this->get(route('api.packs.show', ['pack' => $pack->id]));
+        $response = $this->getJson(route('api.packs.show', ['pack' => $pack->id]));
 
         // Assert
         $response->assertStatus(200);
@@ -80,7 +80,7 @@ class PackTest extends TestCase
         $pack = Pack::factory()->create();
 
         // Act
-        $response = $this->get(route('api.packs.show', ['pack' => $pack->id]));
+        $response = $this->getJson(route('api.packs.show', ['pack' => $pack->id]));
 
         // Assert
         $response->assertStatus(200);
@@ -94,7 +94,7 @@ class PackTest extends TestCase
     public function guest_cannot_view_non_existent_pack(): void
     {
         // Act
-        $response = $this->get(route('api.packs.show', ['pack' => 999]));
+        $response = $this->getJson(route('api.packs.show', ['pack' => 999]));
 
         // Assert
         $response->assertStatus(404);
@@ -108,7 +108,7 @@ class PackTest extends TestCase
         $this->authenticateUser();
 
         // Act
-        $response = $this->get(route('api.packs.show', ['pack' => 999]));
+        $response = $this->getJson(route('api.packs.show', ['pack' => 999]));
 
         // Assert
         $response->assertStatus(404);
@@ -123,7 +123,7 @@ class PackTest extends TestCase
         $user = $this->authenticateUser();
 
         // Act
-        $response = $this->post(route('api.packs.store'), $data);
+        $response = $this->postJson(route('api.packs.store'), $data);
 
         // Assert
         $response->assertStatus(201);
@@ -142,7 +142,7 @@ class PackTest extends TestCase
         $this->authenticateUser();
 
         // Act
-        $response = $this->post(route('api.packs.store'), $data);
+        $response = $this->postJson(route('api.packs.store'), $data);
 
         // Assert
         $response->assertStatus(422);
@@ -161,7 +161,7 @@ class PackTest extends TestCase
         $pack = Pack::factory()->create();
 
         // Act
-        $response = $this->post(route('api.packs.store'), [
+        $response = $this->postJson(route('api.packs.store'), [
             'name' => $pack->name,
             'language_from' => 'fr',
             'language_to' => 'de',
@@ -184,9 +184,7 @@ class PackTest extends TestCase
     public function guest_cannot_create_pack(): void
     {
         // Act
-        $response = $this->withHeaders([
-            'Accept' => 'application/json',
-        ])->post(route('api.packs.store'), [
+        $response = $this->postJson(route('api.packs.store'), [
             'name' => 'Dutch',
             'language_from' => 'en',
             'language_to' => 'nl',
@@ -213,7 +211,7 @@ class PackTest extends TestCase
         ]);
 
         // Act
-        $response = $this->put(route('api.packs.update', ['pack' => $pack->id]), $data);
+        $response = $this->putJson(route('api.packs.update', ['pack' => $pack->id]), $data);
 
         // Assert
         $response->assertStatus(200);
@@ -232,7 +230,7 @@ class PackTest extends TestCase
         $pack = Pack::factory()->create();
 
         // Act
-        $response = $this->put(route('api.packs.update', ['pack' => $pack->id]), [
+        $response = $this->putJson(route('api.packs.update', ['pack' => $pack->id]), [
             'name' => 'Updated Pack',
             'language_from' => 'fr',
             'language_to' => 'de',
@@ -258,7 +256,7 @@ class PackTest extends TestCase
         $pack = Pack::factory()->create();
 
         // Act
-        $response = $this->put(route('api.packs.update', ['pack' => $pack->id]), $data);
+        $response = $this->putJson(route('api.packs.update', ['pack' => $pack->id]), $data);
 
         // Assert
         $response->assertStatus(422);
@@ -277,7 +275,7 @@ class PackTest extends TestCase
         $this->authenticateUser();
 
         // Act
-        $response = $this->put(route('api.packs.update', ['pack' => 999]), [
+        $response = $this->putJson(route('api.packs.update', ['pack' => 999]), [
             'name' => 'Updated Pack',
             'language_from' => 'fr',
             'language_to' => 'de',
@@ -298,7 +296,7 @@ class PackTest extends TestCase
         ]);
 
         // Act
-        $response = $this->delete(route('api.packs.destroy', ['pack' => $pack->id]));
+        $response = $this->deleteJson(route('api.packs.destroy', ['pack' => $pack->id]));
 
         // Assert
         $response->assertStatus(204);
@@ -316,7 +314,7 @@ class PackTest extends TestCase
         $pack = Pack::factory()->create();
 
         // Act
-        $response = $this->delete(route('api.packs.destroy', ['pack' => $pack->id]));
+        $response = $this->deleteJson(route('api.packs.destroy', ['pack' => $pack->id]));
 
         // Assert
         $response->assertStatus(403);
@@ -333,7 +331,7 @@ class PackTest extends TestCase
         $pack = Pack::factory()->create();
 
         // Act
-        $response = $this->withHeader('Accept', 'application/json')->delete(route('api.packs.destroy', ['pack' => $pack->id]));
+        $response = $this->deleteJson(route('api.packs.destroy', ['pack' => $pack->id]));
 
         // Assert
         $response->assertStatus(401);
@@ -350,7 +348,7 @@ class PackTest extends TestCase
         $this->authenticateUser();
 
         // Act
-        $response = $this->delete(route('api.packs.destroy', ['pack' => 999]));
+        $response = $this->deleteJson(route('api.packs.destroy', ['pack' => 999]));
 
         // Assert
         $response->assertStatus(404);
