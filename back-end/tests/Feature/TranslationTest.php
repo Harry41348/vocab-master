@@ -36,8 +36,7 @@ class TranslationTest extends TestCase
                 'to_translation' => $translation->to_translation,
             ]);
         });
-        // TODO: Fix intermittent failure
-        $otherTranslations->each(function ($translation) use ($response) {
+        $otherTranslations->each(function ($translation) use ($response, $pack) {
             $response->assertJsonMissing([
                 'from_translation' => $translation->from_translation,
                 'to_translation' => $translation->to_translation,
@@ -164,6 +163,62 @@ class TranslationTest extends TestCase
 
     #[Test]
     #[Group('translation')]
+    public function user_can_not_create_translation_for_unauthorized_pack(): void
+    {
+        // Arrange
+        $this->authenticateUser();
+        $pack = Pack::factory()->create([
+            'user_id' => User::factory()->create()->id,
+        ]);
+        $translationData = [
+            'from_translation' => 'Hello',
+            'to_translation' => 'Hola',
+        ];
+
+        // Act
+        $response = $this->postJson(route('api.packs.translations.store', ['pack' => $pack->id]), $translationData);
+
+        // Assert
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('translations', [
+            'from_translation' => $translationData['from_translation'],
+            'to_translation' => $translationData['to_translation'],
+        ]);
+    }
+
+    #[Test]
+    #[Group('translation')]
+    public function user_can_not_create_translation_with_existing_data(): void
+    {
+        // Arrange
+        $user = $this->authenticateUser();
+        $pack = Pack::factory()->create([
+            'user_id' => $user->id,
+        ]);
+        $translation = Translation::factory()->create([
+            'pack_id' => $pack->id,
+            'from_translation' => 'Hello',
+            'to_translation' => 'Holla',
+        ]);
+
+        // Act
+        $response = $this->postJson(route('api.packs.translations.store', ['pack' => $pack->id]), [
+            'from_translation' => $translation->from_translation,
+            'to_translation' => $translation->to_translation,
+        ]);
+
+        // Assert
+        $response->assertStatus(422)
+            ->assertJsonFragment([
+                'message' => 'Validation failed',
+                'pack_id' => [
+                    'Translation already exists',
+                ],
+            ]);
+    }
+
+    #[Test]
+    #[Group('translation')]
     #[DataProvider('validTranslationData')]
     public function user_can_update_translation_with_valid_data($translationData): void
     {
@@ -249,9 +304,12 @@ class TranslationTest extends TestCase
         ]);
 
         // Assert
-        $response->assertStatus(400)
+        $response->assertStatus(422)
             ->assertJsonFragment([
-                'message' => 'Translation already exists',
+                'message' => 'Validation failed',
+                'pack_id' => [
+                    'Translation already exists',
+                ],
             ]);
     }
 

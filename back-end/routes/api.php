@@ -37,6 +37,6 @@ Route::name('api.')->group(function () {
             ->names('packs');
 
         Route::resource('packs.translations', TranslationController::class)
-            ->only(['store', 'update', 'destroy']);
+            ->only(['store', 'update', 'destroy'])->names('packs.translations');
     });
 });

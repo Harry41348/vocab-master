@@ -252,8 +252,10 @@ class PackTest extends TestCase
     public function user_cannot_update_pack_with_invalid_data($data, $errors): void
     {
         // Arrange
-        $this->authenticateUser();
-        $pack = Pack::factory()->create();
+        $user = $this->authenticateUser();
+        $pack = Pack::factory()->create([
+            'user_id' => $user->id,  
+        ]);
 
         // Act
         $response = $this->putJson(route('api.packs.update', ['pack' => $pack->id]), $data);

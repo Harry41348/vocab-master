@@ -27,14 +27,8 @@ class PackController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(int $id): ApiResponse
+    public function show(Pack $pack): ApiResponse
     {
-        $pack = Pack::find($id);
-
-        if (! $pack) {
-            return ApiResponse::error(404, 'Pack not found');
-        }
-
         return ApiResponse::success($pack);
     }
 
@@ -62,20 +56,15 @@ class PackController extends Controller
      * Update an existing pack.
      *
      * @param  \Illuminate\Http\PackRequest  $request
-     * @param  int  $id
+     * @param  Pack  $pack
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(PackRequest $request, $id): ApiResponse
+    public function update(PackRequest $request, int $id): ApiResponse
     {
         $pack = Pack::find($id);
 
         if (! $pack) {
             return ApiResponse::error(404, 'Pack not found');
-        }
-
-        // Check if the authenticated user is the owner of the pack
-        if (! $this->isOwner($pack)) {
-            return ApiResponse::error(403, 'You do not have permission to update this pack');
         }
 
         $validatedData = $request->validated();
@@ -96,14 +85,8 @@ class PackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id): ApiResponse
+    public function destroy(Pack $pack): ApiResponse
     {
-        $pack = Pack::find($id);
-
-        if (! $pack) {
-            return ApiResponse::error(404, 'Pack not found');
-        }
-
         // Check if the authenticated user is the owner of the pack
         if (! $this->isOwner($pack)) {
             return ApiResponse::error(403, 'You do not have permission to delete this pack');

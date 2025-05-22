@@ -18,8 +18,8 @@ class TranslationFactory extends Factory
     {
         return [
             'pack_id' => null,
-            'from_translation' => $this->faker->word(),
-            'to_translation' => $this->faker->word(),
+            'from_translation' => $this->faker->unique()->word(),
+            'to_translation' => $this->faker->unique()->word(),
         ];
     }
 }

@@ -16,14 +16,10 @@ class TranslationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, int $pack): ApiResponse
+    public function index(Request $request, Pack $pack): ApiResponse
     {
-        $count = $request->query('count', 0);
-        $translations = Translation::where('pack_id', $pack)->inRandomOrder();
-
-        if ($count) {
-            $translations = $translations->limit($count);
-        }
+        $count = $request->query('count', -1);
+        $translations = Translation::where('pack_id', $pack->id)->inRandomOrder()->take($count);
 
         return ApiResponse::success($translations->get());
     }
@@ -36,28 +32,10 @@ class TranslationController extends Controller
      */
     public function store(TranslationRequest $request, Pack $pack): ApiResponse
     {
-        // Check if the pack belongs to the user
-        // if (! $this->isPackOwner($pack)) {
-        //     return ApiResponse::error(403, 'Unauthorized');
-        // }
-
         $validatedData = $request->validated();
-
-        // Check if the translation already exists
-        $translationExists = Translation::where([
-            'pack_id' => $pack->id,
-            'from_translation' => strtolower($validatedData['from_translation']),
-            'to_translation' => strtolower($validatedData['to_translation']),
-            ])->exists();
-
-        if ($translationExists) {
-            return ApiResponse::error(400, 'Translation already exists');
-        }
 
         try {
             $validatedData['pack_id'] = $pack->id;
-            $validatedData['from_translation'] = $validatedData['from_translation'];
-            $validatedData['to_translation'] = $validatedData['to_translation'];
             $translation = Translation::create($validatedData);
         } catch (\Exception $e) {
             return ApiResponse::error(500, 'Failed to create translation');
@@ -75,23 +53,7 @@ class TranslationController extends Controller
      */
     public function update(TranslationRequest $request, Pack $pack, Translation $translation): ApiResponse
     {
-        // Check if the pack belongs to the user
-        if (! $this->isPackOwner($pack)) {
-            return ApiResponse::error(403, 'Unauthorized');
-        }
-
         $validatedData = $request->validated();
-
-        // Check if the translation already exists
-        $translationExists = Translation::where([
-            'pack_id' => $pack->id,
-            'from_translation' => $validatedData['from_translation'],
-            'to_translation' => $validatedData['to_translation'],
-            ])->where('id', '!=', $translation->id)->exists();
-
-        if ($translationExists) {
-            return ApiResponse::error(400, 'Translation already exists');
-        }
 
         try {
             $translation->update($validatedData);

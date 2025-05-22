@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Models\Translation;
+use Illuminate\Validation\Validator;
+
 class TranslationRequest extends ApiRequest
 {
     /**
@@ -16,7 +19,7 @@ class TranslationRequest extends ApiRequest
 
         // Check if the user is the owner of the pack
         $pack = $this->route('pack');
-        if ($pack && $this->user()->id !== $pack->user_id) {
+        if ($this->user()->id !== $pack->user_id) {
             return false;
         }
 
@@ -33,8 +36,34 @@ class TranslationRequest extends ApiRequest
         $packId = $this->route('pack');
 
         return [
-            'from_translation' => 'required|string',
+            'from_translation' => [
+                'required',
+                'string'
+            ],
             'to_translation' => 'required|string'
+        ];
+    }
+    
+    /**
+     * Get the "after" validation callables for the request.
+     */
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                $exists = Translation::where([
+                    'pack_id' => $this->route('pack')->id,
+                    'from_translation' => strtolower($this->input('from_translation')),
+                    'to_translation' => strtolower($this->input('to_translation')),
+                ])->exists();
+
+                if ($exists) {
+                    $validator->errors()->add(
+                        'pack_id',
+                        'Translation already exists'
+                    );
+                }
+            }
         ];
     }
 }
