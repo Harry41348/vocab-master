@@ -56,7 +56,7 @@ class PackController extends Controller
      * Update an existing pack.
      *
      * @param  \Illuminate\Http\PackRequest  $request
-     * @param  Pack  $pack
+     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(PackRequest $request, int $id): ApiResponse
@@ -82,7 +82,7 @@ class PackController extends Controller
      * Delete a pack.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Pack  $pack
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Pack $pack): ApiResponse

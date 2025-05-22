@@ -36,10 +36,7 @@ class TranslationRequest extends ApiRequest
         $packId = $this->route('pack');
 
         return [
-            'from_translation' => [
-                'required',
-                'string'
-            ],
+            'from_translation' => 'required|string',
             'to_translation' => 'required|string'
         ];
     }
@@ -59,7 +56,7 @@ class TranslationRequest extends ApiRequest
 
                 if ($exists) {
                     $validator->errors()->add(
-                        'pack_id',
+                        'translation',
                         'Translation already exists'
                     );
                 }

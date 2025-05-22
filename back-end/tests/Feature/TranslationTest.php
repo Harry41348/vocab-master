@@ -211,7 +211,7 @@ class TranslationTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonFragment([
                 'message' => 'Validation failed',
-                'pack_id' => [
+                'translation' => [
                     'Translation already exists',
                 ],
             ]);
@@ -307,7 +307,7 @@ class TranslationTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonFragment([
                 'message' => 'Validation failed',
-                'pack_id' => [
+                'translation' => [
                     'Translation already exists',
                 ],
             ]);
