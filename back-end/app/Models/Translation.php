@@ -21,6 +21,22 @@ class Translation extends Model
         'to_translation',
     ];
 
+    /**
+     * Ensure the from_translation is always stored in lowercase.
+     */
+    public function setFromTranslationAttribute(string $value): void
+    {
+        $this->attributes['from_translation'] = strtolower($value);
+    }
+
+    /**
+     * Ensure the to_translation is always stored in lowercase.
+     */
+    public function setToTranslationAttribute(string $value): void
+    {
+        $this->attributes['to_translation'] = strtolower($value);
+    }
+
     public function pack(): BelongsTo
     {
         return $this->belongsTo(Pack::class);

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Models\Pack;
+
 class PackRequest extends ApiRequest
 {
     /**
@@ -9,7 +11,17 @@ class PackRequest extends ApiRequest
      */
     public function authorize(): bool
     {
-        // Allow all users to create packs
+        // Check if the user is authenticated
+        if ($this->user() === null) {
+            return false;
+        }
+
+        // Check if the user is the owner of the pack
+        $pack = Pack::find($this->route('pack'));
+        if ($pack && $this->user()->id !== $pack->user_id) {
+            return false;
+        }
+
         return true;
     }
 
