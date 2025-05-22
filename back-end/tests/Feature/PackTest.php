@@ -254,7 +254,7 @@ class PackTest extends TestCase
         // Arrange
         $user = $this->authenticateUser();
         $pack = Pack::factory()->create([
-            'user_id' => $user->id,  
+            'user_id' => $user->id,
         ]);
 
         // Act

@@ -37,10 +37,10 @@ class TranslationRequest extends ApiRequest
 
         return [
             'from_translation' => 'required|string',
-            'to_translation' => 'required|string'
+            'to_translation' => 'required|string',
         ];
     }
-    
+
     /**
      * Get the "after" validation callables for the request.
      */
@@ -60,7 +60,7 @@ class TranslationRequest extends ApiRequest
                         'Translation already exists'
                     );
                 }
-            }
+            },
         ];
     }
 }

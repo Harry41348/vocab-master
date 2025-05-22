@@ -23,9 +23,6 @@ class Translation extends Model
 
     /**
      * Ensure the from_translation is always stored in lowercase.
-     *
-     * @param  string  $value
-     * @return void
      */
     public function setFromTranslationAttribute(string $value): void
     {
@@ -34,9 +31,6 @@ class Translation extends Model
 
     /**
      * Ensure the to_translation is always stored in lowercase.
-     *
-     * @param  string  $value
-     * @return void
      */
     public function setToTranslationAttribute(string $value): void
     {

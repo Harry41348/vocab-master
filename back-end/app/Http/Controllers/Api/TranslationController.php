@@ -23,7 +23,7 @@ class TranslationController extends Controller
 
         return ApiResponse::success($translations->get());
     }
-    
+
     /**
      * Create a new translation.
      *
@@ -48,7 +48,6 @@ class TranslationController extends Controller
      * Update an existing translation.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Translation  $translation
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(TranslationRequest $request, Pack $pack, Translation $translation): ApiResponse
@@ -67,7 +66,6 @@ class TranslationController extends Controller
     /**
      * Delete a translation.
      *
-     * @param  \App\Models\Translation  $translation
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Pack $pack, Translation $translation): ApiResponse
@@ -76,7 +74,7 @@ class TranslationController extends Controller
         if (! $this->isPackOwner($pack)) {
             return ApiResponse::error(403, 'Unauthorized');
         }
-        
+
         try {
             $translation->delete();
         } catch (\Exception $e) {
@@ -88,7 +86,7 @@ class TranslationController extends Controller
 
     /**
      * Check if the pack belongs to the user.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -97,5 +95,5 @@ class TranslationController extends Controller
         $user = CurrentUser();
 
         return $pack->user_id === $user->id;
-    }   
+    }
 }

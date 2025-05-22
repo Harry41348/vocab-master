@@ -36,7 +36,7 @@ class TranslationTest extends TestCase
                 'to_translation' => $translation->to_translation,
             ]);
         });
-        $otherTranslations->each(function ($translation) use ($response, $pack) {
+        $otherTranslations->each(function ($translation) use ($response) {
             $response->assertJsonMissing([
                 'from_translation' => $translation->from_translation,
                 'to_translation' => $translation->to_translation,
@@ -397,20 +397,20 @@ class TranslationTest extends TestCase
                 [
                     'from_translation' => 'Hello',
                     'to_translation' => 'Hola',
-                ]
+                ],
             ],
             [
                 [
                     'from_translation' => 'Goodbye',
                     'to_translation' => 'Adiós',
-                ]
+                ],
             ],
             [
                 [
                     'from_translation' => 'Thank you',
                     'to_translation' => 'Gracias',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
