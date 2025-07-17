@@ -23,7 +23,7 @@ export default function Root() {
   };
 
   return (
-    <main className="justify-cente6 flex h-screen w-screen items-center justify-center">
+    <main className="flex h-screen w-screen items-center justify-center">
       <Card className="flex flex-col gap-6">
         <h1 className="text-center text-2xl">This is a template project</h1>
         {authCtx?.user && (
