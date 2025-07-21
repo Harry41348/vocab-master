@@ -8,7 +8,7 @@ export default function ErrorMessage({ errors }: ErrorMessageProps) {
       {errors?.map((error, index) => (
         <p
           key={`error-${index}`}
-          className="rounded-lg bg-gradient-to-br from-red-300 to-red-200 p-3 text-center text-gray-700 shadow-md"
+          className="rounded-lg bg-linear-to-br from-red-300 to-red-200 p-3 text-center text-gray-700 shadow-md"
         >
           {error}
         </p>
