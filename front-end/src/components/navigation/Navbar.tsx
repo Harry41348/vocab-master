@@ -31,7 +31,9 @@ export default function Navbar() {
         </NavLink>
         {loggedIn() && (
           <li className="mx-1 cursor-pointer rounded-full px-4 py-1.5 text-gray-700 transition-all duration-300 hover:bg-indigo-200">
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout} className="cursor-pointer">
+              Logout
+            </button>
           </li>
         )}
         {!loggedIn() && (
