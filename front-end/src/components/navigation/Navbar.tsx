@@ -1,24 +1,49 @@
 import { loggedIn } from '@/utils/authUtil';
-import './Navbar.scss';
-import classNames from 'classnames';
+import NavLink from './NavLink';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import toast from 'react-hot-toast';
 
 export default function Navbar() {
   const path = window.location.pathname;
 
+  const navigate = useNavigate();
+  const authCtx = useAuth();
+
+  const handleLogout = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    try {
+      await authCtx?.logout();
+
+      toast.success('You have successfully logged out!');
+      navigate('/');
+    } catch {
+      toast.error('Sorry, something went wrong. Please try again.');
+    }
+  };
+
   return (
     <nav>
-      <ul className="navbar">
-        <li className={classNames({ active: path === '/' })}>
-          <a href="/">Dashboard</a>
-        </li>
+      <ul className="flex w-full justify-center rounded-lg bg-gray-50 p-5 shadow-lg">
+        <NavLink link="/" active={path === '/'}>
+          Dashboard
+        </NavLink>
+        {loggedIn() && (
+          <>
+            <NavLink link={'#'} onClick={handleLogout} active={false}>
+              Logout
+            </NavLink>
+          </>
+        )}
         {!loggedIn() && (
           <>
-            <li className={classNames({ active: path === '/login' })}>
-              <a href="/login">Login</a>
-            </li>
-            <li className={classNames({ active: path === '/register' })}>
-              <a href="/register">Register</a>
-            </li>
+            <NavLink link="/login" active={path === '/login'}>
+              Login
+            </NavLink>
+            <NavLink link="/register" active={path === '/register'}>
+              Register
+            </NavLink>
           </>
         )}
       </ul>

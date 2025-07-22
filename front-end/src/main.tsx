@@ -10,7 +10,6 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
       <Toaster />
-      <Navbar />
       <Router />
     </AuthProvider>
   </StrictMode>,

@@ -6,7 +6,7 @@ const ErrorPage: React.FC = () => {
   return (
     <div
       id="error-page"
-      className="flex h-screen flex-col items-center justify-center gap-8"
+      className="flex flex-1 flex-col items-center justify-center gap-8"
     >
       <h1 className="text-4xl font-bold">Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
