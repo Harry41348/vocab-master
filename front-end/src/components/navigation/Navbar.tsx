@@ -17,7 +17,7 @@ export default function Navbar() {
       await authCtx?.logout();
 
       toast.success('You have successfully logged out!');
-      navigate('/');
+      navigate('/login');
     } catch {
       toast.error('Sorry, something went wrong. Please try again.');
     }
@@ -30,13 +30,9 @@ export default function Navbar() {
           Dashboard
         </NavLink>
         {loggedIn() && (
-          <>
-            <li className="mx-1 cursor-pointer rounded-full px-4 py-1.5 text-gray-700 transition-all duration-300 hover:bg-indigo-200">
-              <button onClick={handleLogout} className="cursor-pointer">
-                Logout
-              </button>
-            </li>
-          </>
+          <li className="mx-1 cursor-pointer rounded-full px-4 py-1.5 text-gray-700 transition-all duration-300 hover:bg-indigo-200">
+            <button onClick={handleLogout}>Logout</button>
+          </li>
         )}
         {!loggedIn() && (
           <>
