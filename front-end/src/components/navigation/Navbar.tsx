@@ -1,11 +1,11 @@
 import { loggedIn } from '@/utils/authUtil';
 import NavLink from './NavLink';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
 
 export default function Navbar() {
-  const path = window.location.pathname;
+  const { pathname } = useLocation();
 
   const navigate = useNavigate();
   const authCtx = useAuth();
@@ -26,7 +26,7 @@ export default function Navbar() {
   return (
     <nav>
       <ul className="flex w-full justify-center rounded-lg bg-gray-50 p-5 shadow-lg">
-        <NavLink link="/" active={path === '/'}>
+        <NavLink link="/" active={pathname === '/'}>
           Dashboard
         </NavLink>
         {loggedIn() && (
@@ -40,10 +40,10 @@ export default function Navbar() {
         )}
         {!loggedIn() && (
           <>
-            <NavLink link="/login" active={path === '/login'}>
+            <NavLink link="/login" active={pathname === '/login'}>
               Login
             </NavLink>
-            <NavLink link="/register" active={path === '/register'}>
+            <NavLink link="/register" active={pathname === '/register'}>
               Register
             </NavLink>
           </>

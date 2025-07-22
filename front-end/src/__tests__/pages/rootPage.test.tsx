@@ -8,12 +8,7 @@ describe('visiting root', () => {
   it('renders homepage as guest', () => {
     visitPath('/');
 
-    expect(screen.getByText('This is a template project')).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'This project utilizes Laravel for the back-end API, and React for the front-end. It comes equipped with a simple authentication system for a user to login, register and logout.',
-      ),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Welcome to Vocab Master!')).toBeInTheDocument();
     expect(screen.getByText('Login')).toBeInTheDocument();
     expect(screen.getByText('Register')).toBeInTheDocument();
   });
@@ -21,12 +16,7 @@ describe('visiting root', () => {
   it('renders homepage as authenticated user', () => {
     visitPath('/', true);
 
-    expect(screen.getByText('This is a template project')).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'This project utilizes Laravel for the back-end API, and React for the front-end. It comes equipped with a simple authentication system for a user to login, register and logout.',
-      ),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Welcome to Vocab Master!')).toBeInTheDocument();
     expect(screen.getByText('Logout')).toBeInTheDocument();
   });
 
@@ -39,7 +29,7 @@ describe('visiting root', () => {
     visitPath('/', true);
 
     // Check that the user is logged in
-    expect(screen.getByText('This is a template project')).toBeInTheDocument();
+    expect(screen.getByText('Welcome to Vocab Master!')).toBeInTheDocument();
     expect(loggedIn()).toBe(true);
 
     // Click the logout link
