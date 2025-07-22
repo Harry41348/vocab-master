@@ -47,7 +47,7 @@ export default function Register() {
   };
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center">
+    <div className="flex w-screen flex-1 items-center justify-center">
       <Card className="flex flex-col gap-6">
         <h1 className="text-center text-2xl">Register</h1>
         <hr className="mx-auto w-8/12" />
